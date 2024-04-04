@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  react-tutorial:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    init: true
+    volumes:
+      - type: bind
+        source: .
+        target: /my-app
+      - type: volume
+        source: react_node_modules
+        target: /my-app/node_modules
+    ports:
+      - "12000:3000"
+    environment:
+      - TZ=Asia/Tokyo
+      - WATCHPACK_POLLING=true
+      # - CHOKIDAR_USEPOLLING=true //note:jsvascriptの場合はこちらでほっとリロードができる
+      - TINI_SUBREAPER=true
+      - NODE_ENV=development
+    # command: ["npm", "run", "dev"]
+
+volumes:
+  react_node_modules:
