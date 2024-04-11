@@ -5,12 +5,12 @@ RUN apt-get update \
     tini \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
-WORKDIR /my-app
+WORKDIR /react-app
 
 ENV NODE_ENV=development
 ENV PATH=$HOME/my-app/node_modules/.bin:$PATH
 
-COPY ./package*.json ./
+COPY ./react-app/package*.json ./
 RUN npm i \
     && npm cache clean -f
 

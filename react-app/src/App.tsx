@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import styled from "@emotion/styled";
+import Button from "./components/Button";
+import Modal from "./components/Modal";
+import TaskList from "./components/TaskList";
 
-function App() {
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+`;
+
+const App = () => {
+  const [tasks, setTasks] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // タスクの追加処理
+  const addTask = (newTask: string) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+    setIsModalOpen(false); // モーダルを閉じる
+  };
+
+  // タスクの削除処理
+  const deleteTask = (index: number) => {
+    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  };
+
+  // モーダルの開閉処理
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContainer>
+      {isModalOpen && <Modal onAdd={addTask} onCancel={toggleModal} />}
+      <TaskList tasks={tasks} onDelete={deleteTask} />
+      <Button color="#4caf50" onClick={toggleModal}>
+        新規登録
+      </Button>
+    </AppContainer>
   );
-}
+};
 
 export default App;

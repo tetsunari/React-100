@@ -10,11 +10,11 @@ services:
     init: true
     volumes:
       - type: bind
-        source: .
-        target: /my-app
+        source: ./react-app
+        target: /react-app
       - type: volume
         source: react_node_modules
-        target: /my-app/node_modules
+        target: /react-app/node_modules
     ports:
       - "12000:3000"
     environment:
